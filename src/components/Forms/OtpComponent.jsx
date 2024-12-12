@@ -2,10 +2,18 @@ import React, {useState} from "react";
 import {InputOTP, InputOTPGroup, InputOTPSlot} from "@/components/ui/input-otp";
 import {Button} from "@/components/ui/button";
 
-export function InputOTPControlled({email, verifyAndLogin, setOtp, isLoading}) {
+export function InputOTPControlled({
+  email,
+  verifyAndLogin,
+  setOtp,
+  isLoading,
+  setIsError,
+  isError,
+}) {
   const [value, setValue] = useState("");
 
   const handleChange = (newValue) => {
+    setIsError("")
     if (newValue.length <= 6 && /^\d*$/.test(newValue)) {
       setValue(newValue);
       if (newValue.length === 6) {
@@ -35,8 +43,11 @@ export function InputOTPControlled({email, verifyAndLogin, setOtp, isLoading}) {
           </InputOTPGroup>
         </InputOTP>
       </div>
+      <div className="text-center text-sm text-red-500 ">
+        {isError ? isError : ""}
+      </div>
       <Button disabled={value.length < 6 || isLoading} onClick={verifyAndLogin}>
-        {isLoading ? "verifying...": "verify otp"}
+        {isLoading ? "verifying..." : "verify otp"}
       </Button>
     </div>
   );

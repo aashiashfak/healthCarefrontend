@@ -1,8 +1,14 @@
 import React from "react";
 import {Button} from "@/components/ui/button";
 import {Bell, User, Home, Phone, Info} from "lucide-react";
+import {useSelector} from "react-redux";
+import {useNavigate} from "react-router-dom";
 
 const Navbar = () => {
+  const isAuthenticated = useSelector(
+    (state) => state.userAuth.isAuthenticated
+  );
+  const navigate = useNavigate();
   return (
     <>
       <div className="flex items-center justify-between px-6 py-4 bg-white shadow-md">
@@ -28,7 +34,11 @@ const Navbar = () => {
             <Bell className="w-5 h-5 text-gray-700" />
           </Button>
           <Button variant="ghost" className="p-2">
-            <User className="w-5 h-5 text-gray-700" />
+            {isAuthenticated ? (
+              <User className="w-5 h-5 text-gray-700" />
+            ) : (
+              <Button onClick={() => navigate("/auth/sign-in")}>Sign In</Button>
+            )}
           </Button>
         </div>
       </div>
