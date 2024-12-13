@@ -11,9 +11,11 @@ export function InputOTPControlled({
   isError,
 }) {
   const [value, setValue] = useState("");
-
   const handleChange = (newValue) => {
-    setIsError("")
+    if(setIsError){
+        setIsError("")
+    }
+    console.log(newValue);
     if (newValue.length <= 6 && /^\d*$/.test(newValue)) {
       setValue(newValue);
       if (newValue.length === 6) {

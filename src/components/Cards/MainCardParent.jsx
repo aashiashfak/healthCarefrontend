@@ -3,11 +3,17 @@ import MainCard from "./MainCard";
 import appoinmentImg from "../../assets/Appoinment.jpeg";
 import doctorsImg from "../../assets/Doctors.jpeg";
 import locationImg from "../../assets/location.avif";
+import { useNavigate } from "react-router-dom";
 
 const MainCardParent = () => {
+    const navigate = useNavigate();
   const handleButtonClick = () => {
     console.log("Button clicked!");
   };
+
+  const navigateDoctor = () => {    
+    navigate("/doctors");
+  }
 
   return (
     <div className="min-h-screen bg-gray-100 p-7">
@@ -16,7 +22,7 @@ const MainCardParent = () => {
           title="Doctors"
           description="Our doctors are highly qualified and experienced."
           buttonText="Find Doctor"
-          buttonAction={handleButtonClick}
+          buttonAction={navigateDoctor}
           imageUrl={doctorsImg}
         />
         <MainCard

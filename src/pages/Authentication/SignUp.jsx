@@ -44,27 +44,28 @@ const SignUp = () => {
           role: user.role || "",
         })
       );
-      showToast("user created and Logged succussfully", "succuss");
+      showToast("User created and logged in successfully", "success");
       navigate("/");
-      if (response.data) {
-        console.log("OTP verified successfully", response.data);
-      }
+      console.log("OTP verified successfully", response.data);
     } catch (error) {
-      showToast(error.response.data.error, error);
+      showToast(
+        error?.response?.data?.error || "An unknown error occurred",
+        "error"
+      );
       console.error("Error during OTP verification:", error);
     } finally {
       setLoading(false);
     }
   };
-  
-  const handleBackClick = () =>{
+
+  const handleBackClick = () => {
     navigate("/");
-  }
+  };
 
   return (
     <>
       <div className="max-w-md mx-auto my-10 p-6 border rounded-md shadow-md ">
-        <BackButton handleBackClick={handleBackClick}/>
+        <BackButton handleBackClick={handleBackClick} />
         <h1 className="text-2xl font-bold mb-6 text-center"> Sign Up</h1>
         {!isOTPsent ? (
           <SignUpForm
