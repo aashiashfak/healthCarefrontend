@@ -1,17 +1,36 @@
-import React from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {Button} from "@/components/ui/button";
 import {Bell, User, Home, Phone, Info} from "lucide-react";
 import {useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
+import '../../components/Dropdown/dropdown.css'
+import ProfileDropdown from "../Dropdown/ProfileDropdown";
 
 const Navbar = () => {
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
+  const navigate = useNavigate();
+
   const isAuthenticated = useSelector(
     (state) => state.userAuth.isAuthenticated
   );
-  const navigate = useNavigate();
+
+  useEffect(() => {
+    const handler = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+
+    return () => {
+      document.removeEventListener("mousedown", handler);
+    };
+  }, []);
+  
   return (
     <>
-      <div className="flex items-center justify-between px-6 py-4 bg-white shadow-md">
+      <div className="flex items-center justify-between px-6 py-4 bg-white shadow-md sticky top-0 z-50">
         {/* Left Side: Heading */}
         <div className="text-xl font-bold text-gray-800">Health Care</div>
 
@@ -33,13 +52,26 @@ const Navbar = () => {
           <Button variant="ghost" className="p-2">
             <Bell className="w-5 h-5 text-gray-700" />
           </Button>
-          <Button variant="ghost" className="p-2">
-            {isAuthenticated ? (
-              <User className="w-5 h-5 text-gray-700" />
-            ) : (
-              <Button onClick={() => navigate("/auth/sign-in")}>Sign In</Button>
-            )}
-          </Button>
+          {isAuthenticated ? (
+            <div className="relative" ref={dropdownRef}>
+              <Button
+                variant="ghost"
+                className="p-2"
+                onClick={() => setDropdownOpen(!dropdownOpen)}
+              >
+                <User className="w-5 h-5 text-gray-700" />
+              </Button>
+              <div
+                className={`Profile-drop-down-menu dropdown-menu absolute right-0 shadow-md bg-white mt-2 w-48 py-1 rounded-md shadow-lg z-20 ${
+                  dropdownOpen ? "active" : "inactive"
+                }`}
+              >
+                {dropdownOpen && <ProfileDropdown />}
+              </div>
+            </div>
+          ) : (
+            <Button onClick={() => navigate("/auth/sign-in")}>Sign In</Button>
+          )}
         </div>
       </div>
 
@@ -65,3 +97,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
+

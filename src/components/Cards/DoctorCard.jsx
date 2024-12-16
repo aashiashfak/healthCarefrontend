@@ -8,7 +8,7 @@ const DoctorCard = ({doctor}) => {
   return (
     <div className="flex justify-center items-center  px-4">
       <div className="w-full max-w-md bg-black bg-opacity-80 rounded-3xl shadow-2xl overflow-hidden border border-gray-700">
-        <div className="relative h-48">
+        <div className="relative h-48 z-10">
           <div className="absolute inset-0 bg-gradient-to-r from-black to-gray-800"></div>
           <img
             src={doctor1Img}
