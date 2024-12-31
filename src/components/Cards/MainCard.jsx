@@ -1,8 +1,15 @@
 import React from "react";
+import { Button } from "../ui/button";
 
 const MainCard = ({title, description, buttonText, buttonAction, imageUrl}) => {
   return (
-    <div className="w-full md:max-w-md bg-gradient-to-br from-gray-900 to-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300">
+    <div
+      className="bg-theme-gradient rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-150"
+      style={{
+        boxShadow:
+          "5px 5px 5px rgba(0, 0, 0, 0.1), -5px 5px 5px rgba(0, 0, 0, 0.1)",
+      }}
+    >
       <div className="relative h-48 md:h-64">
         {imageUrl ? (
           <img
@@ -17,15 +24,17 @@ const MainCard = ({title, description, buttonText, buttonAction, imageUrl}) => {
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent opacity-60"></div>
       </div>
-      <div className="p-6">
-        <h2 className="text-2xl font-bold mb-2 text-white">{title}</h2>
-        <p className="text-gray-300 mb-4">{description}</p>
-        <button
+      <div className="p-6 flex flex-col justify-between">
+        <div className="">
+          <h2 className="text-2xl font-bold mb-2 text-white">{title}</h2>
+          <p className="text-gray-300 mb-4">{description}</p>
+        </div>
+        <Button
           onClick={buttonAction}
-          className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-300"
+          className="w-full bg-white text-black rounded transition-all duration-300 ease-in-out transform hover:bg-theme-gradient-hover hover:shadow-lg "
         >
           {buttonText}
-        </button>
+        </Button>
       </div>
     </div>
   );

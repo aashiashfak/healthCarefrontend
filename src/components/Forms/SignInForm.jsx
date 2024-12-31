@@ -1,7 +1,7 @@
 import React from "react";
 import {useFormik} from "formik";
 import * as Yup from "yup";
-import {Button} from "../ui/button";
+import StyledButton from "../Buttons/StyledButtons";
 
 const SignInForm = ({onSubmit, isLoading}) => {
   const formik = useFormik({
@@ -36,18 +36,15 @@ const SignInForm = ({onSubmit, isLoading}) => {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.email}
+            placeholder="Enter your email"
           />
           {formik.touched.email && formik.errors.email ? (
             <div className="text-red-500 text-sm">{formik.errors.email}</div>
           ) : null}
         </div>
-        <Button
-          type="submit"
-          className="w-full text-white py-2 px-4 rounded"
-          disabled={isLoading}
-        >
+        <StyledButton type="submit" isLoading={isLoading}>
           {isLoading ? "Submitting..." : "Submit"}
-        </Button>
+        </StyledButton>
       </form>
       <div className="text-center">
         <p className="text-sm text-gray-600 mt-2">

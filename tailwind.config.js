@@ -4,6 +4,12 @@ module.exports = {
   content: ["./index.html", "./src/**/*.{ts,tsx,js,jsx}"],
   theme: {
     extend: {
+      backgroundImage: {
+        "theme-gradient":
+          "linear-gradient(to right, #004d60, #007c91, #0097a7)",
+        "theme-gradient-hover":
+          "linear-gradient(to right, #006978, #00a0b1, #00b8d3)",
+      },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",

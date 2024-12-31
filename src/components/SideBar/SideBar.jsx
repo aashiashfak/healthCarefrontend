@@ -9,7 +9,7 @@ const Sidebar = ({title ,children}) => {
   };
 
   return (
-    <div className="min-h-screen flex bg-gray-900 z-50 fixed">
+    <div className="min-h-screen flex b z-50 fixed">
       {/* Toggle button for small screens */}
       {!isOpen && (
         <button
@@ -22,14 +22,14 @@ const Sidebar = ({title ,children}) => {
 
       {/* Sidebar for all screens */}
       <div
-        className={`fixed min-h-screen lg:relative lg:w-64 w-full h-full bg-black text-white transition-transform duration-300 ${
+        className={`fixed min-h-screen lg:relative lg:w-64 w-full h-full shadow-xl bg-gray-50 transition-transform duration-300 ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         } lg:translate-x-0 lg:block`}
       >
         {/* Sidebar content */}
         <div className="flex justify-between items-center p-4 border-b border-gray-700">
           <div className="text-lg font-semibold">{title}</div>
-          <button className="lg:hidden text-white" onClick={toggleSidebar}>
+          <button className="lg:hidden" onClick={toggleSidebar}>
             <X />
           </button>
         </div>

@@ -9,9 +9,12 @@ const Banner = () => {
         alt="Banner"
         className="w-full h-full object-cover"
       />
-      <div className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center">
-        <h1 className="text-white text-2xl md:text-4xl font-bold">
-          Your Health, Our Priority – Trusted Care, Anytime, Anywhere 
+      <div className="absolute inset-0 bg-black bg-opacity-30 flex  justify-center">
+        <h1
+          className="text-2xl md:text-4xl font-bold text-center text-border mt-5"
+          style={{textShadow: "2px 2px 4px rgba(0, 0, 0, 0.8)" , }}
+        >
+          Your Health, Our Priority – Trusted Care, Anytime, Anywhere
         </h1>
       </div>
     </div>

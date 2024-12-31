@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import {InputOTP, InputOTPGroup, InputOTPSlot} from "@/components/ui/input-otp";
 import {Button} from "@/components/ui/button";
+import StyledButton from "../Buttons/StyledButtons";
 
 export function InputOTPControlled({
   email,
@@ -12,8 +13,8 @@ export function InputOTPControlled({
 }) {
   const [value, setValue] = useState("");
   const handleChange = (newValue) => {
-    if(setIsError){
-        setIsError("")
+    if (setIsError) {
+      setIsError("");
     }
     console.log(newValue);
     if (newValue.length <= 6 && /^\d*$/.test(newValue)) {
@@ -48,9 +49,13 @@ export function InputOTPControlled({
       <div className="text-center text-sm text-red-500 ">
         {isError ? isError : ""}
       </div>
-      <Button disabled={value.length < 6 || isLoading} onClick={verifyAndLogin}>
-        {isLoading ? "verifying..." : "verify otp"}
-      </Button>
+      <StyledButton
+        disabled={value.length < 6 || isLoading}
+        onClick={verifyAndLogin}
+        isLoading={isLoading}
+      >
+        {isLoading ? " Loading..." : "Verify and Login"}
+      </StyledButton>
     </div>
   );
 }

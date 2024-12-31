@@ -2,14 +2,18 @@ import React, {useEffect, useRef, useState} from "react";
 import {Button} from "@/components/ui/button";
 import {Bell, User, Home, Phone, Info} from "lucide-react";
 import {useSelector} from "react-redux";
-import {useNavigate} from "react-router-dom";
-import '../../components/Dropdown/dropdown.css'
+import {useLocation, useNavigate} from "react-router-dom";
+import "../../components/Dropdown/dropdown.css";
 import ProfileDropdown from "../Dropdown/ProfileDropdown";
+import StyledButton from "../Buttons/StyledButtons";
 
 const Navbar = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const activePath = (path) => location.pathname === path;
 
   const isAuthenticated = useSelector(
     (state) => state.userAuth.isAuthenticated
@@ -27,22 +31,36 @@ const Navbar = () => {
       document.removeEventListener("mousedown", handler);
     };
   }, []);
-  
+
   return (
     <>
       <div className="flex items-center justify-between px-6 py-4 bg-white shadow-md sticky top-0 z-50">
         {/* Left Side: Heading */}
-        <div className="text-xl font-bold text-gray-800">Health Care</div>
+        <div className="text-xl font-bold bg-gradient-to-r from-[#004d60] via-[#007c91] to-[#0097a7] bg-clip-text text-transparent">
+          Health Care
+        </div>
 
         {/* Center: Navigation Links (hidden on small screens) */}
         <div className="hidden md:flex space-x-6">
-          <Button variant="link" className="text-gray-700 hover:text-gray-900">
+          <Button
+            variant="link"
+            className={` text-[#004d60] hhover:text-[#006978] ${
+              activePath("/") ? "underline font-bold" : ""
+            }`}
+            onClick={()=>navigate("/")}
+          >
             Home
           </Button>
-          <Button variant="link" className="text-gray-700 hover:text-gray-900">
+          <Button
+            variant="link"
+            className="text-[#004d60] hover:text-[#006978]"
+          >
             Contact Us
           </Button>
-          <Button variant="link" className="text-gray-700 hover:text-gray-900">
+          <Button
+            variant="link"
+            className="text-[#004d60] hover:text-[#006978]"
+          >
             About Us
           </Button>
         </div>
@@ -50,7 +68,7 @@ const Navbar = () => {
         {/* Right Side: Icons */}
         <div className="flex items-center space-x-4">
           <Button variant="ghost" className="p-2">
-            <Bell className="w-5 h-5 text-gray-700" />
+            <Bell className="w-5 h-5 text-[#004d60] " />
           </Button>
           {isAuthenticated ? (
             <div className="relative" ref={dropdownRef}>
@@ -62,7 +80,7 @@ const Navbar = () => {
                 <User className="w-5 h-5 text-gray-700" />
               </Button>
               <div
-                className={`Profile-drop-down-menu dropdown-menu absolute right-0 shadow-md bg-white mt-2 w-48 py-1 rounded-md shadow-lg z-20 ${
+                className={`Profile-drop-down-menu dropdown-menu absolute right-0  bg-white mt-2 w-48 py-1 rounded-md shadow-lg z-20 ${
                   dropdownOpen ? "active" : "inactive"
                 }`}
               >
@@ -70,7 +88,7 @@ const Navbar = () => {
               </div>
             </div>
           ) : (
-            <Button onClick={() => navigate("/auth/sign-in")}>Sign In</Button>
+            <StyledButton onClick={() => navigate("/auth/sign-in")}>Sign In</StyledButton>
           )}
         </div>
       </div>
@@ -97,4 +115,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-

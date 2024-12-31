@@ -4,14 +4,18 @@ import {DoctorServices} from "@/services/DoctorServices";
 import {useQuery} from "react-query";
 import DoctorLoader from "@/components/spinners/DoctorLoader";
 import Sidebar from "@/components/SideBar/SideBar";
-import SideBarDropdown from "@/components/Dropdown/SidebarDropdown";
+import CheckboxGroup from "@/components/checkBox/checkBox";
 
 const Doctors = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState(searchQuery); // For delayed search
   const debounceTimeout = useRef(null); // Ref to store the timeout ID
 
+  const [selectedDepartments, setSelectedDepartments] = useState([]);
+  const [selectedSpecifications, setSelectedSpecifications] = useState([]);
+
   const fetchDoctors = async (params) => {
+    console.log(params);
     const response = await DoctorServices.getDoctors(params);
     return response;
   };
@@ -20,13 +24,42 @@ const Doctors = () => {
     data: doctors,
     error,
     isLoading,
-    refetch,
   } = useQuery(
-    ["doctors", debouncedSearch],
-    () => fetchDoctors(debouncedSearch ? {search: debouncedSearch} : {}), // Pass empty params when no search query
+    ["doctors", debouncedSearch, selectedDepartments, selectedSpecifications],
+    () => {
+      // Construct query parameters from selected filters and search query
+      const departmentParam = selectedDepartments.join(","); // Comma-separated departments
+      const specialtyParam = selectedSpecifications.join(","); // Comma-separated specialties
+      const searchParam = debouncedSearch ? debouncedSearch : undefined; // Use search query if available
+
+      // Construct and return params
+      const params = {
+        department: departmentParam,
+        specialty: specialtyParam,
+        search: searchParam,
+      };
+
+      // Return the API request with constructed params
+      return fetchDoctors(params);
+    },
     {
       refetchOnWindowFocus: false,
-      enabled: true, // Always enable the query
+    }
+  );
+
+  const {data: departments, isLoading: isLoadingDepartments} = useQuery(
+    ["departments"],
+    () => DoctorServices.getDepartments(),
+    {
+      refetchOnWindowFocus: false,
+    }
+  );
+
+  const {data: specifications, isLoading: isLoadingSpecification} = useQuery(
+    ["specifications"],
+    () => DoctorServices.getSpecifications(),
+    {
+      refetchOnWindowFocus: false,
     }
   );
 
@@ -51,16 +84,52 @@ const Doctors = () => {
     return <div>Error: {error?.response?.data}</div>;
   }
 
+  const handleCheckboxChange = (type, item) => {
+    if (type === "department") {
+      setSelectedDepartments((prevSelected) =>
+        prevSelected.includes(item)
+          ? prevSelected.filter((dep) => dep !== item)
+          : [...prevSelected, item]
+      );
+    } else if (type === "specification") {
+      setSelectedSpecifications((prevSelected) =>
+        prevSelected.includes(item)
+          ? prevSelected.filter((spec) => spec !== item)
+          : [...prevSelected, item]
+      );
+    }
+  };
+
+  const handleClearCheckBox = (clearState) => {
+    if (clearState === "department") {
+      setSelectedDepartments([]);
+    } else if (clearState === "specification") {
+      setSelectedSpecifications([]);
+    }
+  };
+
   return (
     <div className="min-h-screen flex">
       {/* Sidebar */}
       <Sidebar title={"Filters"}>
-        <SideBarDropdown title={"Departments"}>
-          here come departents
-        </SideBarDropdown>
-        <SideBarDropdown title={"Specifications"}>
-           here come specifications
-        </SideBarDropdown>
+        <CheckboxGroup
+          title={"Departments"}
+          items={departments || []}
+          selectedItems={selectedDepartments}
+          handleCheckboxChange={(item) =>
+            handleCheckboxChange("department", item)
+          }
+          clearState={() => handleClearCheckBox("department")}
+        />
+        <CheckboxGroup
+          title={"Specifications"}
+          items={specifications || []}
+          selectedItems={selectedSpecifications}
+          handleCheckboxChange={(item) =>
+            handleCheckboxChange("specification", item)
+          }
+          clearState={() => handleClearCheckBox("specification")}
+        />
       </Sidebar>
 
       {/* Main content */}

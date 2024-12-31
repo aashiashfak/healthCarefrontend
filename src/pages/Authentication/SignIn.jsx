@@ -74,9 +74,9 @@ const SignIn = () => {
   };
 
   return (
-    <div className="max-w-sm mx-auto mt-10 p-6 border rounded-md shadow-md">
+    <div className="max-w-sm mx-auto mt-10 p-6 border rounded-md shadow-md border-gray-100 overflow-y-auto">
       <BackButton handleBackClick={handleBackClick} />
-      <h1 className="text-2xl font-bold mb-6 text-center">Sign In</h1>
+      <h1 className="text-2xl font-bold mb-6 text-center">{isOTPsent?"Verify OTP ": "Sign In"}</h1>
       {!isOTPsent ? (
         <SignInForm onSubmit={handleFormSubmit} isLoading={loading} />
       ) : (

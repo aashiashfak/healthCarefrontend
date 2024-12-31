@@ -17,7 +17,7 @@ const MainCardParent = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 p-7">
-      <div className="flex flex-wrap justify-center gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:p-1 lg:p-12">
         <MainCard
           title="Doctors"
           description="Our doctors are highly qualified and experienced."
