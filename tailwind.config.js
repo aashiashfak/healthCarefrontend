@@ -15,6 +15,10 @@ module.exports = {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+      ringColor: {
+        "theme-gradient-hover":
+          "linear-gradient(to right, #006978, #00a0b1, #00b8d3)",
+      },
       colors: {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",

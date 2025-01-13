@@ -3,17 +3,21 @@ import MainCard from "./MainCard";
 import appoinmentImg from "../../assets/Appoinment.jpeg";
 import doctorsImg from "../../assets/Doctors.jpeg";
 import locationImg from "../../assets/location.avif";
-import { useNavigate } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 const MainCardParent = () => {
-    const navigate = useNavigate();
-  const handleButtonClick = () => {
-    console.log("Button clicked!");
+  const navigate = useNavigate();
+  const handleNavigation = (title) => {
+    if (title === "Appoinment") {
+      navigate("/appoinment");
+    } else if (title === "Doctors") {
+      console.log('doctores')
+      navigate("/doctors");
+    } else if (title === "Location") {
+      navigate("/locations");
+    }
   };
 
-  const navigateDoctor = () => {    
-    navigate("/doctors");
-  }
 
   return (
     <div className="min-h-screen bg-gray-100 p-7">
@@ -22,21 +26,21 @@ const MainCardParent = () => {
           title="Doctors"
           description="Our doctors are highly qualified and experienced."
           buttonText="Find Doctor"
-          buttonAction={navigateDoctor}
+          buttonAction={() => handleNavigation("Doctors")}
           imageUrl={doctorsImg}
         />
         <MainCard
           title="Appoinment"
           description="Book your appointment with us today!"
           buttonText="Book Now"
-          buttonAction={handleButtonClick}
+          buttonAction={() => handleNavigation("Appoinment")}
           imageUrl={appoinmentImg}
         />
         <MainCard
           title="Locations"
           description="Find us at our locations across the city"
           buttonText="Find"
-          buttonAction={handleButtonClick}
+          buttonAction={() => handleNavigation("Location")}
           imageUrl={locationImg}
         />
       </div>
@@ -44,4 +48,4 @@ const MainCardParent = () => {
   );
 };
 
-export default MainCardParent
+export default MainCardParent;

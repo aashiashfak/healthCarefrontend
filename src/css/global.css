@@ -1,0 +1,26 @@
+@keyframes scroll-left {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.scrollText {
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: transform 0.5s ease-in-out;
+}
+
+.scrollText:hover {
+  animation: scroll-left 8s linear infinite;
+  max-width: none;
+  /* overflow: visible; */
+}
+
+.over:hover{
+    overflow: visible;
+}

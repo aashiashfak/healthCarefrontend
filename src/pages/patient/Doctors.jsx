@@ -139,7 +139,7 @@ const Doctors = () => {
           <input
             type="text"
             placeholder="Search doctors by name, department, or specialty..."
-            className="w-full md:w-1/2 p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:bg-gray-200"
+            className="w-full md:w-1/2 p-3 border border-gray-300 rounded-md shadow-sm "
             value={searchQuery}
             onChange={handleSearchChange}
           />
