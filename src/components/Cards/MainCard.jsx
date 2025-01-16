@@ -24,7 +24,7 @@ const MainCard = ({title, description, buttonText, buttonAction, imageUrl}) => {
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent opacity-60"></div>
       </div>
-      <div className="p-6 flex flex-col justify-between">
+      <div className="p-6 flex flex-col justify-between h-[190px]">
         <div className="">
           <h2 className="text-2xl font-bold mb-2 text-white">{title}</h2>
           <p className="text-gray-300 mb-4">{description}</p>
