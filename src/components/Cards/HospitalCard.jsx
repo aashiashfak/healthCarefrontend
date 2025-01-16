@@ -1,9 +1,10 @@
 import React from "react";
 import {MapPin, Heart, Award, Clock} from "lucide-react";
 import doctor1Img from "../../assets/Appoinment.jpeg";
-import { Button } from "../ui/button";
+import {Button} from "../ui/button";
 
-const DoctorCard = ({doctor}) => {
+const HospitalCard = ({hospital}) => {
+  console.log("doctor----", hospital);
   return (
     <div className="flex justify-center items-center  px-4 ">
       <div
@@ -17,44 +18,30 @@ const DoctorCard = ({doctor}) => {
           <div className="absolute inset-0 bg-gradient-to-r from-black to-gray-800"></div>
           <img
             src={doctor1Img}
-            alt={doctor.user.username}
+            alt={hospital.user.username}
             className="w-full h-full object-cover opacity-30"
           />
           <div className="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black to-transparent">
             <h2 className="text-xl font-bold text-white mb-1">
-              {doctor.user.username}
+              {`${hospital.user.username} (${hospital.short_name})`}
             </h2>
-            <p className="font-semibold text-white truncate">
-              {doctor.qualifications.replace(/"/g, "")}
-            </p>
           </div>
         </div>
 
         <div className="p-6 space-y-4">
           <div className="flex items-center space-x-2  ">
             <MapPin className="w-5 h-5" />
-            <span>New York City, NY</span>
-          </div>
-
-          <div className="flex items-center space-x-2 ">
-            <Heart className="w-5 h-5" />
-            <span>{doctor.department}</span>
-          </div>
-
-          <div className="flex items-center space-x-2 ">
-            <Award className="w-5 h-5" />
-            <span className="truncate">{doctor.specialties.join(", ")}</span>
-          </div>
-
-          <div className="flex items-center space-x-2 ">
-            <Clock className="w-5 h-5" />
-            <span>{doctor.years_of_experience} years of experience</span>
+            <div className="pl-2">
+              {hospital.user.address.street_name_1},{" "}
+              {hospital.user.address.city}, {hospital.user.address.state},{" "}
+              {hospital.user.address.pincode}
+            </div>
           </div>
         </div>
 
         <div className="p-6 ">
           <Button className="bg-theme-gradient  text-white text-lg transition duration-300 hover:bg-gray-200 w-full">
-            Book Appointment
+            view Doctors
           </Button>
         </div>
       </div>
@@ -62,4 +49,4 @@ const DoctorCard = ({doctor}) => {
   );
 };
 
-export default DoctorCard;
+export default HospitalCard;

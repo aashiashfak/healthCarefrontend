@@ -8,8 +8,8 @@ import CheckboxGroup from "@/components/checkBox/checkBox";
 
 const Doctors = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [debouncedSearch, setDebouncedSearch] = useState(searchQuery); // For delayed search
-  const debounceTimeout = useRef(null); // Ref to store the timeout ID
+  const [debouncedSearch, setDebouncedSearch] = useState(searchQuery); 
+  const debounceTimeout = useRef(null); 
 
   const [selectedDepartments, setSelectedDepartments] = useState([]);
   const [selectedSpecifications, setSelectedSpecifications] = useState([]);
@@ -19,7 +19,7 @@ const Doctors = () => {
     const response = await DoctorServices.getDoctors(params);
     return response;
   };
-
+  
   const {
     data: doctors,
     error,
@@ -27,19 +27,15 @@ const Doctors = () => {
   } = useQuery(
     ["doctors", debouncedSearch, selectedDepartments, selectedSpecifications],
     () => {
-      // Construct query parameters from selected filters and search query
-      const departmentParam = selectedDepartments.join(","); // Comma-separated departments
-      const specialtyParam = selectedSpecifications.join(","); // Comma-separated specialties
-      const searchParam = debouncedSearch ? debouncedSearch : undefined; // Use search query if available
+      const departmentParam = selectedDepartments.join(","); 
+      const specialtyParam = selectedSpecifications.join(",");
+      const searchParam = debouncedSearch ? debouncedSearch : undefined; 
 
-      // Construct and return params
       const params = {
         department: departmentParam,
         specialty: specialtyParam,
         search: searchParam,
       };
-
-      // Return the API request with constructed params
       return fetchDoctors(params);
     },
     {
@@ -83,7 +79,7 @@ const Doctors = () => {
   if (error) {
     return <div>Error: {error?.response?.data}</div>;
   }
-
+  
   const handleCheckboxChange = (type, item) => {
     if (type === "department") {
       setSelectedDepartments((prevSelected) =>
