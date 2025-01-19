@@ -1,5 +1,5 @@
 import HospitalCard from "@/components/Cards/HospitalCard";
-import DoctorLoader from "@/components/spinners/DoctorLoader";
+import HealthLoader from "@/components/spinners/HealthLoader";
 import {HospitalServices} from "@/services/HospitalServices";
 import {Locate} from "lucide-react";
 import {useEffect, useRef, useState} from "react";
@@ -118,7 +118,7 @@ const Locations = () => {
           </div>
         </div>
         {isLoading || loading ? (
-          <DoctorLoader />
+          <HealthLoader />
         ) : (
           <div className="mt-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-1 md:p-5 lg:p-10">
             {hospitals?.length > 0 ? (
