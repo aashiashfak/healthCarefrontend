@@ -1,5 +1,5 @@
 import React from "react";
-import DropDownMenu from "./DropDownMenu";
+import DropDownMenu from "@/components/Dropdown/dropDownMenu";
 import {User, LogOut} from "lucide-react";
 import {useDispatch} from "react-redux";
 import {useNavigate} from "react-router-dom";
