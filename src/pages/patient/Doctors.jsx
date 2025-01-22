@@ -105,7 +105,7 @@ const Doctors = () => {
   };
 
   return (
-    <div className="min-h-screen flex">
+    <div className="min-h-screen flex ">
       {/* Sidebar */}
       <Sidebar title={"Filters"}>
         <CheckboxGroup
@@ -129,9 +129,9 @@ const Doctors = () => {
       </Sidebar>
 
       {/* Main content */}
-      <div className="lg:ml-72 p-4 w-full">
+      <div className="lg:ml-72 w-full">
         {/* Search Input */}
-        <div className="mb-6 flex justify-center">
+        <div className="mb-4 flex justify-center sticky top-[76px] px-1 py-3 z-30 bg-white">
           <input
             type="text"
             placeholder="Search doctors by name, department, or specialty..."
