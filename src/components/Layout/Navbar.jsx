@@ -94,7 +94,7 @@ const Navbar = () => {
       </div>
 
       {/* Bottom Navigation for Small Screens */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white shadow-md">
+      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white shadow-md z-50 ">
         <div className="flex justify-around py-2">
           <Button variant="ghost" className="flex flex-col items-center p-2">
             <Home className="w-5 h-5 text-gray-700" />

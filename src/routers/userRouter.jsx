@@ -9,11 +9,14 @@ const UserRoutes = () => {
   return (
     <>
       <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/doctors" element={<Doctors />} />
-        <Route path="/locations" element={<Locations />} />
-      </Routes>
+      {/* Main Content */}
+      <div className="pt-4 md:pt-0 pb-16 md:pb-0">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/doctors" element={<Doctors />} />
+          <Route path="/locations" element={<Locations />} />
+        </Routes>
+      </div>
     </>
   );
 }
