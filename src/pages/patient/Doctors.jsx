@@ -1,25 +1,30 @@
 import React, {useState, useEffect, useRef} from "react";
 import DoctorCard from "@/components/Cards/DoctorCard";
 import {DoctorServices} from "@/services/DoctorServices";
+import {HospitalServices} from "@/services/HospitalServices";
 import {useQuery} from "react-query";
-import DoctorLoader from "@/components/spinners/DoctorLoader";
+import HealthLoader from "@/components/spinners/HealthLoader";
 import Sidebar from "@/components/SideBar/SideBar";
 import CheckboxGroup from "@/components/checkBox/checkBox";
+import {useLocation} from "react-router-dom";
 
 const Doctors = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [debouncedSearch, setDebouncedSearch] = useState(searchQuery); 
-  const debounceTimeout = useRef(null); 
-
+  const [debouncedSearch, setDebouncedSearch] = useState(searchQuery);
+  const debounceTimeout = useRef(null);
+  const location = useLocation();
   const [selectedDepartments, setSelectedDepartments] = useState([]);
   const [selectedSpecifications, setSelectedSpecifications] = useState([]);
 
+  const hospitalId = location.state?.hospitalId;
   const fetchDoctors = async (params) => {
     console.log(params);
-    const response = await DoctorServices.getDoctors(params);
+    const response = !hospitalId
+      ? await DoctorServices.getDoctors(params)
+      : await HospitalServices.getDoctorsByHospital(hospitalId);
     return response;
   };
-  
+
   const {
     data: doctors,
     error,
@@ -27,9 +32,9 @@ const Doctors = () => {
   } = useQuery(
     ["doctors", debouncedSearch, selectedDepartments, selectedSpecifications],
     () => {
-      const departmentParam = selectedDepartments.join(","); 
+      const departmentParam = selectedDepartments.join(",");
       const specialtyParam = selectedSpecifications.join(",");
-      const searchParam = debouncedSearch ? debouncedSearch : undefined; 
+      const searchParam = debouncedSearch ? debouncedSearch : undefined;
 
       const params = {
         department: departmentParam,
@@ -79,7 +84,7 @@ const Doctors = () => {
   if (error) {
     return <div>Error: {error?.response?.data}</div>;
   }
-  
+
   const handleCheckboxChange = (type, item) => {
     if (type === "department") {
       setSelectedDepartments((prevSelected) =>
@@ -131,7 +136,7 @@ const Doctors = () => {
       {/* Main content */}
       <div className="lg:ml-72 w-full">
         {/* Search Input */}
-        <div className="mb-4 flex justify-center sticky top-[76px] px-1 py-3 z-30 bg-white">
+        <div className="mb-4 flex justify-center sticky top-[72px] px-1 py-3 z-30 bg-white">
           <input
             type="text"
             placeholder="Search doctors by name, department, or specialty..."
@@ -141,19 +146,19 @@ const Doctors = () => {
           />
         </div>
 
-        {isLoading && <DoctorLoader />}
+        {isLoading && <HealthLoader />}
 
         {/* Doctors Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {doctors?.length > 0 ? (
-            doctors.map((doctor) => (
-              <DoctorCard key={doctor.id} doctor={doctor} />
-            ))
-          ) : (
-            <div className="col-span-full text-center text-gray-500">
-              No doctors found matching your search.
-            </div>
-          )}
+          {doctors?.length > 0
+            ? doctors.map((doctor) => (
+                <DoctorCard key={doctor.id} doctor={doctor} />
+              ))
+            : !isLoading && (
+                <div className="col-span-full text-center text-gray-500">
+                  No doctors found matching your search.
+                </div>
+              )}
         </div>
       </div>
     </div>

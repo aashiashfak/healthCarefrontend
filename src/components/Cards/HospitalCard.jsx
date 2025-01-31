@@ -2,9 +2,11 @@ import React from "react";
 import {MapPin} from "lucide-react";
 import doctor1Img from "../../assets/Appoinment.jpeg";
 import {Button} from "../ui/button";
+import { useNavigate } from "react-router-dom";
+
 
 const HospitalCard = ({hospital}) => {
-  console.log("doctor----", hospital);
+  const navigate = useNavigate();
   return (
     <div className="flex justify-center items-center px-4">
       <div
@@ -27,7 +29,7 @@ const HospitalCard = ({hospital}) => {
             </h2>
           </div>
         </div>
-        <div className="h-[220px] flex flex-col justify-between " >
+        <div className="h-[220px] flex flex-col justify-between ">
           <div className="p-4 space-y-4 ">
             <div className="flex space-x-1 ">
               <div className="p-1">
@@ -42,7 +44,12 @@ const HospitalCard = ({hospital}) => {
           </div>
 
           <div className="p-6 ">
-            <Button className="bg-theme-gradient text-white text-lg transition duration-300 hover:bg-gray-200 w-full">
+            <Button
+              onClick={() =>
+                navigate("/doctors", {state: {hospitalId: hospital.user.id}})
+              }
+              className="bg-theme-gradient text-white text-lg transition duration-300 hover:bg-gray-200 w-full"
+            >
               View Doctors
             </Button>
           </div>

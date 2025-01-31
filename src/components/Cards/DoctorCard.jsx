@@ -52,7 +52,7 @@ const DoctorCard = ({doctor}) => {
           </div>
         </div>
 
-        <div className="p-6 ">
+        <div className="px-6 pb-6 ">
           <Button className="bg-theme-gradient  text-white text-lg transition duration-300 hover:bg-gray-200 w-full">
             Book Appointment
           </Button>
