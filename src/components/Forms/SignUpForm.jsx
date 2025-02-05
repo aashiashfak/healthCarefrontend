@@ -35,7 +35,7 @@ const SignUpForm = ({setPatientData, setIsOTPsent}) => {
       options: ["O+", "O-", "A+", "A-", "B+", "B-", "AB+", "AB-"],
     },
     {name: "allergies", label: "Allergies (Optional)", type: "text"},
-    {name: "address", label: "Address", type: "text", required: true},
+    // {name: "address", label: "Address", type: "text", required: true},
     {
       name: "emergency_contact_number",
       label: "Emergency Contact Number",
@@ -66,11 +66,12 @@ const SignUpForm = ({setPatientData, setIsOTPsent}) => {
       {}
     ),
     validationSchema: Yup.object(validationSchema),
-    onSubmit: async (values) => {
+    onSubmit: async (values, {setErrors}) => {
       try {
         setLoading(true);
         const response = await instance.post("accounts/patient-sign-up/", {
           email: values.email,
+          phone_number: values.phone_number,
         });
         showToast(response?.data?.message || "OTP sent", "success");
         setPatientData({
@@ -84,12 +85,20 @@ const SignUpForm = ({setPatientData, setIsOTPsent}) => {
             gender: values.gender,
             blood_group: values.blood_group,
             allergies: values.allergies,
-            address: values.address,
             emergency_contact_number: values.emergency_contact_number,
           },
         });
         setIsOTPsent(true);
       } catch (error) {
+        if (
+          error.response &&
+          error.response.data &&
+          error.response.data.error
+        ) {
+          setErrors(error.response.data.error); 
+        } else {
+          showToast("Error sending OTP", "error");
+        }
         showToast("Error sending OTP", "error");
         console.error("Error during signup:", error);
       } finally {
@@ -99,75 +108,88 @@ const SignUpForm = ({setPatientData, setIsOTPsent}) => {
   });
 
   return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        formik.handleSubmit();
-      }}
-      className=""
-    >
-      {fields.map((field) => (
-        <div key={field.name}>
-          <label
-            htmlFor={field.name}
-            className="block font-medium text-gray-700 mt-2"
-          >
-            {field.label}
-          </label>
-          {field.type === "select" ? (
-            <select
-              id={field.name}
-              name={field.name}
-              className={`mt-1 block w-full p-2 border rounded-md shadow-sm ${
-                formik.touched[field.name] && formik.errors[field.name]
-                  ? "border-red-500"
-                  : "border-gray-300"
-              }`}
-              {...formik.getFieldProps(field.name)}
+    <>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          formik.handleSubmit();
+        }}
+        className=""
+      >
+        {fields.map((field) => (
+          <div key={field.name}>
+            <label
+              htmlFor={field.name}
+              className="block font-medium text-gray-700 mt-2"
             >
-              <option value="" disabled className="text-gray-500">
-                Select {field.label}
-              </option>
-              {field.options.map((option) => (
-                <option key={option} value={option}>
-                  {option}
+              {field.label}
+            </label>
+            {field.type === "select" ? (
+              <select
+                id={field.name}
+                name={field.name}
+                className={`mt-1 block w-full p-2 border rounded-md shadow-sm ${
+                  formik.touched[field.name] && formik.errors[field.name]
+                    ? "border-red-500"
+                    : "border-gray-300"
+                }`}
+                {...formik.getFieldProps(field.name)}
+              >
+                <option value="" disabled className="text-gray-500">
+                  Select {field.label}
                 </option>
-              ))}
-            </select>
-          ) : (
-            <input
-              id={field.name}
-              name={field.name}
-              type={
-                field.name === "phone_number" ||
-                field.name === "emergency_contact_number"
-                  ? "tel"
-                  : field.type
-              }
-              maxLength={field.name.includes("phone_number") ? 10 : undefined}
-              pattern={
-                field.name.includes("phone_number") ? "[0-9]{10}" : undefined
-              }
-              className={`mt-1 block w-full p-2 border rounded-md shadow-sm ${
-                formik.touched[field.name] && formik.errors[field.name]
-                  ? "border-red-500"
-                  : "border-gray-300"
-              }`}
-              {...formik.getFieldProps(field.name)}
-            />
-          )}
-          {formik.touched[field.name] && formik.errors[field.name] && (
-            <p className="text-red-500 text-sm mt-1">
-              {formik.errors[field.name]}
-            </p>
-          )}
-        </div>
-      ))}
+                {field.options.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+            ) : (
+              <input
+                id={field.name}
+                name={field.name}
+                type={
+                  field.name === "phone_number" ||
+                  field.name === "emergency_contact_number"
+                    ? "tel"
+                    : field.type
+                }
+                maxLength={field.name.includes("phone_number") ? 10 : undefined}
+                pattern={
+                  field.name.includes("phone_number") ? "[0-9]{10}" : undefined
+                }
+                className={`mt-1 block w-full p-2 border rounded-md shadow-sm ${
+                  formik.touched[field.name] && formik.errors[field.name]
+                    ? "border-red-500"
+                    : "border-gray-300"
+                }`}
+                {...formik.getFieldProps(field.name)}
+              />
+            )}
+            {formik.touched[field.name] && formik.errors[field.name] && (
+              <p className="text-red-500 text-sm mt-1">
+                {formik.errors[field.name]}
+              </p>
+            )}
+          </div>
+        ))}
 
-      <StyledButton type="submit" isLoading={loading} className="mt-4" >
-        {loading? "Submitting..." : "Submit"}
-      </StyledButton>
-    </form>
+        <StyledButton type="submit" isLoading={loading} className="mt-4">
+          {loading ? "Submitting..." : "Submit"}
+        </StyledButton>
+      </form>
+      <div className="text-center">
+        <p className="text-sm text-gray-600 mt-2">
+          Already have an account?{" "}
+          <a
+            href="/auth/sign-in"
+            className="text-blue-500 hover:text-blue-700 underline"
+          >
+            Please sign in
+          </a>
+        </p>
+      </div>
+    </>
   );
 };
 

@@ -13,7 +13,6 @@ const SignUp = () => {
   const [patientData, setPatientData] = useState({});
   const [otp, setOtp] = useState("");
   const [loading, setLoading] = useState(false);
-  const [isError, setIsError] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const showToast = useToastNotification();
